@@ -72,6 +72,28 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future _periodicNotification() async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      "channelId2",
+      "channelName2",
+      "channelDescription2",
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    var platformChannelSpecifics = new NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+      0,
+      "Trial",
+      "My Body",
+      RepeatInterval.everyMinute,
+      platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      payload: "This is  notification detail text",
+    );
+  }
+
   Future onSelectNotification(String? payload) async {
     showDialog(
         context: context,
@@ -102,6 +124,10 @@ class _HomeState extends State<Home> {
             ElevatedButton(
               onPressed: _showNotification5sec,
               child: Text("Trigger Notification in 5 seconds"),
+            ),
+            ElevatedButton(
+              onPressed: _periodicNotification,
+              child: Text("Periodic Notification every minute"),
             ),
           ],
         ),
