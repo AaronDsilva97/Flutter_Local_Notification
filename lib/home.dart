@@ -25,6 +25,23 @@ class _HomeState extends State<Home> {
         onSelectNotification: onSelectNotification);
   }
 
+  tz.TZDateTime _scheduleWeekly10AM() {
+    tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduleDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.minute,
+      10,
+    );
+    if (scheduleDate.isBefore(now)) {
+      scheduleDate = scheduleDate.add(
+        const Duration(days: 1),
+      );
+    }
+    return scheduleDate;
+  }
+
   Future _showNotification() async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
       "channelId",
@@ -94,6 +111,30 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future _scheduleWeeklyNotification() async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      "channelId3",
+      "channelName3",
+      "channelDescription3",
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    var platformChannelSpecifics = new NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      1,
+      "Trial",
+      "My Body",
+      _scheduleWeekly10AM(),
+      platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      payload: "This is  notification detail text",
+    );
+  }
+
   Future _cancelPeriodicNotification() async {
     await flutterLocalNotificationsPlugin.cancel(1);
   }
@@ -132,6 +173,10 @@ class _HomeState extends State<Home> {
             ElevatedButton(
               onPressed: _periodicNotification,
               child: Text("Periodic Notification every minute"),
+            ),
+            ElevatedButton(
+              onPressed: _scheduleWeeklyNotification,
+              child: Text("10 AM Weekly"),
             ),
             ElevatedButton(
               onPressed: _cancelPeriodicNotification,
