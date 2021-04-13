@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     tz.initializeTimeZones();
-    tz.setLocalLocation(tz.getLocation('America/Detroit'));
+    tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
     var initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
     var initializationSettings =
