@@ -135,6 +135,27 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<void> _showNotificationCustomSound() async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      "channelId4",
+      "channelName4",
+      "channelDescription4",
+      sound: RawResourceAndroidNotificationSound('Dog-barking.mp3'),
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'custom sound notification title',
+      'custom sound notification body',
+      platformChannelSpecifics,
+    );
+  }
+
   Future _cancelPeriodicNotification() async {
     await flutterLocalNotificationsPlugin.cancel(1);
   }
@@ -177,6 +198,10 @@ class _HomeState extends State<Home> {
             ElevatedButton(
               onPressed: _scheduleWeeklyNotification,
               child: Text("10 AM Weekly"),
+            ),
+            ElevatedButton(
+              onPressed: _showNotificationCustomSound,
+              child: Text("Notification with sound"),
             ),
             ElevatedButton(
               onPressed: _cancelPeriodicNotification,
