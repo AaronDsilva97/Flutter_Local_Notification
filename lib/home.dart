@@ -140,7 +140,7 @@ class _HomeState extends State<Home> {
       "channelId4",
       "channelName4",
       "channelDescription4",
-      sound: RawResourceAndroidNotificationSound('Dog-barking.mp3'),
+      sound: RawResourceAndroidNotificationSound('dogbarking'),
       importance: Importance.max,
       priority: Priority.high,
     );
