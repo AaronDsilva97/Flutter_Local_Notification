@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
       android: androidPlatformChannelSpecifics,
     );
     await flutterLocalNotificationsPlugin.periodicallyShow(
-      0,
+      1,
       "Trial",
       "My Body",
       RepeatInterval.everyMinute,
@@ -92,6 +92,10 @@ class _HomeState extends State<Home> {
       androidAllowWhileIdle: true,
       payload: "This is  notification detail text",
     );
+  }
+
+  Future _cancelPeriodicNotification() async {
+    await flutterLocalNotificationsPlugin.cancel(1);
   }
 
   Future onSelectNotification(String? payload) async {
@@ -129,6 +133,10 @@ class _HomeState extends State<Home> {
               onPressed: _periodicNotification,
               child: Text("Periodic Notification every minute"),
             ),
+            ElevatedButton(
+              onPressed: _cancelPeriodicNotification,
+              child: Text("Cancel Notification"),
+            )
           ],
         ),
       ),
